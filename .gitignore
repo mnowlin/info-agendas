@@ -1,0 +1,16 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.positai
+.DS_Store
+
+/.quarto/
+**/*.quarto_ipynb
+*.aux
+
+data/
+literature/
+nowlin-style-profile.md
+references.bib
+american-political-science-association.csl

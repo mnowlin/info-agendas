@@ -1,0 +1,41 @@
+---
+title: "Information, Power, and Agendas: Drivers of (In)Attention to Climate Change"
+bibliography: references.bib
+csl: american-political-science-association.csl
+fig-cap-location: top
+fontfamily: ebgaramond
+link-bibliography: false
+format:
+  html:
+    author:
+      - name: Matthew C. Nowlin
+        email: matthew.nowlin@uta.edu
+        corresponding: true
+        affiliations:
+          - name: University of Texas at Arlington
+            department: Department of Political Science
+  pdf:
+    author:
+      - name: "Matthew C. Nowlin^[Associate Professor, Department of Political Science, University of Texas at Arlington. Email: matthew.nowlin@uta.edu]"
+    include-in-header:
+      text: |
+        \usepackage{setspace}
+        \usepackage{dcolumn}
+        \usepackage{float}
+        \usepackage{amsmath}
+        \addtokomafont{disposition}{\rmfamily}
+        \normalem
+  docx:
+    author:
+      - name: "Matthew C. Nowlin^[Associate Professor, Department of Political Science, University of Texas at Arlington. Email: matthew.nowlin@uta.edu]"
+    reference-doc: custom-reference-doc.docx
+---
+
+```{r}
+#| include: false
+source("scripts/analysis.R")
+```
+
+\newpage
+
+# References
