@@ -15,26 +15,35 @@ custom-reference-doc.docx            Word reference template used for the DOCX o
 LOG.md                               Running session log (newest entry first)
 scripts/
   analysis.R                         Sourced by the qmd: loads data and builds the
-                                       analysis objects, models, tables, and figures
+                                       analysis objects, models, tables, and figures.
+                                       Currently reproduces Nowlin (2019, Table 5.1).
   export-cited-refs.R                Pre-render step: trims the master .bib to cited keys
 data/                                Analysis data (NOT in git -- local only)
+  gccData.csv                          Annual series behind Nowlin (2019, Ch. 5), 1980-2016
+  gccWitnesses.csv                     Witness-appearance data, 1975-2016 (for later use)
+  hearings-2017-2022-methodology.md    How the climate-hearing DV was extended to 2022
 literature/                          Background literature (NOT in git -- local only)
+renv.lock, renv/, .Rprofile          renv project library (tracked)
 ```
 
 ## Reproducing the analysis
 
-Requires R and Quarto. Package versions are managed with `renv`; once the
-project library is initialized, run `renv::restore()` to reproduce it.
+Requires R and Quarto. Package versions are managed with `renv` (initialized);
+run `renv::restore()` to reproduce the recorded library.
 
 - **Manuscript:** `quarto render` → outputs to `_output/` (HTML, PDF, and
   DOCX; the DOCX uses `custom-reference-doc.docx`)
 - **Analysis only:** `Rscript scripts/analysis.R` builds the analysis
-  objects without rendering the manuscript.
+  objects without rendering the manuscript. It currently reproduces
+  Nowlin (2019, Table 5.1) from `data/gccData.csv`.
 
 ## Data
 
 The `data/` folder is **not tracked in git** and must be restored locally
-before rendering.
+before rendering. `data/hearings-2017-2022-methodology.md` documents how the
+climate-hearing dependent variable was extended from 2016 to 2022; the
+construction scripts and intermediate files live in
+`03-data/climate-change-hearings/` (outside this repo).
 
 ## Notes
 

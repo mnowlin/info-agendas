@@ -14,9 +14,15 @@ format:
         affiliations:
           - name: University of Texas at Arlington
             department: Department of Political Science
+      - name: Jonathan Lewallen
+        email: jlewallen@ut.edu
+        affiliations:
+          - name: University of Tampa
+            department: Political Science and International Studies
   pdf:
     author:
       - name: "Matthew C. Nowlin^[Associate Professor, Department of Political Science, University of Texas at Arlington. Email: matthew.nowlin@uta.edu]"
+      - name: "Jonathan Lewallen^[Associate Professor, Department of Political Science and Internaitonal Relations, University of Tampa. Email: jlewallen@ut.edu]"
     include-in-header:
       text: |
         \usepackage{setspace}
@@ -28,6 +34,7 @@ format:
   docx:
     author:
       - name: "Matthew C. Nowlin^[Associate Professor, Department of Political Science, University of Texas at Arlington. Email: matthew.nowlin@uta.edu]"
+      - name: "Jonathan Lewallen^[University of Tampa. Email: jlewallen@ut.edu]"
     reference-doc: custom-reference-doc.docx
 ---
 
