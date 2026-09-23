@@ -85,7 +85,7 @@ hearing-transcript corpus (657 hearings, plain text) live in
 are kept alongside the 1969 versions but are no longer read by `analysis.R`.
 
 A separate corpus of Congressional Record floor speeches on climate change and
-cap-and-trade, 2000-2012 (2,119 speeches, plain text, with party/state index),
+cap-and-trade, 2000-2012 (2,133 speeches, plain text, with party/state index),
 lives in `03-data/cap-and-trade-congressional-record/` (outside this repo; see
 its README for method).
 

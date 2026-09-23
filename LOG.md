@@ -100,10 +100,12 @@ issue.
   - Search terms: "climate change", "global warming", "greenhouse gas",
     "cap and trade", plus (added on request) "national energy tax" and
     "cap-and-tax" to catch opponents' framing. Plain "energy tax" left out
-    (mostly energy tax credits); "carbon tax" not added (would add 26).
+    (mostly energy tax credits). "carbon tax" added later the same session:
+    25 new records (the 26th was Daily Digest), 14 more speeches kept (12 R,
+    2 D), mostly 2009 -> **2,133 speeches**.
   - 6,846 records → 6,070 without the Daily Digest → 110,703 speeches split
     by speaker, inserted bill text stripped, 2,718 duplicate copies removed →
-    **2,119 kept** by a mechanical screen (3+ mentions and 2+ per 1,000 words,
+    **2,119 kept** (2,133 after "carbon tax" was added; see below) by a mechanical screen (3+ mentions and 2+ per 1,000 words,
     or a topic title and 2+ mentions). Party/state from GovInfo metadata
     (all but 1 matched). Peak 2009 = 639; 277 speeches use the energy-tax
     terms, 273 of them Republican. Scripts, index CSV, full audit CSV, and
