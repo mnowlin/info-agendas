@@ -108,17 +108,20 @@ stopifnot(all(chk$hearings_dv == chk$hearings_gcc))
 #                         NOAA pulls fill 1969-1979 and 2017-2024 (negligible
 #                         CO2 drift; CEI has real revision drift, spliced
 #                         rather than refreshed for that reason)
-#   nyt, netArticles      refreshed throughout 1969-2024 on today's NYT
-#                         Article Search API / Web of Science (SCI-Expanded +
-#                         SSCI) -- a splice was rejected for both: matching
-#                         the original search recipe as closely as possible
-#                         still produced a large, non-constant gap against
-#                         the original LexisNexis/2009-era-WoS values (NYT:
-#                         ~1.4x-7x, growing; sci. publications: ~7-9x,
-#                         already large at the earliest overlap year), so
-#                         these two now measure something closer to "content
-#                         mentioning climate" than the original instruments --
-#                         worth a manuscript footnote if this model is used
+#   nyt                   refreshed throughout 1969-2024 on today's NYT
+#                         Article Search API -- a splice was rejected: the API
+#                         returns ~1.4x-7x the original LexisNexis counts, a
+#                         gap that grows over time, so the series now measures
+#                         something closer to "content mentioning climate"
+#   netArticles           Liu et al.'s NSP: the year-over-year change in the
+#                         annual count of SCI-Expanded + SSCI climate
+#                         publications. Spliced -- original 1980-2016 values
+#                         kept as-is; 2017-2024 = today's WoS changes divided
+#                         by 0.607 (mean new/original annual-count ratio,
+#                         2007-2016; steady at 0.52-0.64 from 1994);
+#                         1969-1979 = today's WoS changes, unscaled (-1..+2).
+#                         Changes, not counts, are joined so the seam adds
+#                         no artificial jump (splice_nsp.py in 03-data)
 #   demCongress           1980-2016 unchanged; extension years use the
 #                         reverse-engineered rule (unified Democratic control
 #                         of both chambers -- verified against all 37
@@ -161,6 +164,10 @@ gccExt$eventCount[gccExt$year %in% 1969:1979] <- 0
 
 gccExt <- gccExt[order(gccExt$year), ]
 stopifnot(!anyNA(gccExt))  # every column should be fully populated, 1969-2024
+# Spliced series must keep the original 1980-2016 values exactly
+i <- match(gcc$year, gccExt$year)
+stopifnot(all(gccExt$netArticles[i] == gcc$netArticles),
+          all(gccExt$netPPM[i] == gcc$netPPM))
 
 gccExt <- gccExt |>
   mutate(

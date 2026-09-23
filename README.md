@@ -40,8 +40,10 @@ data/                                Analysis data (NOT in git -- local only)
                                          below)
   iv_co2_cei_1969_2024.csv             Net CO2 change + Climate Extremes Index, spliced
   iv_nyt_1969_2024.csv                 NYT article counts, refreshed on today's API
-  iv_sciPublications_1969_2024.csv     Net scientific publications, refreshed on today's
-                                         Web of Science
+  iv_sciPublications_1969_2024.csv     Net scientific publications (year-over-year
+                                         change), spliced: original 1980-2016 kept,
+                                         today's Web of Science changes for the rest
+                                         (2017-2024 rescaled by 0.607)
   iv_REP_1969_2024.csv                 Liu et al.'s 3-level Republican-control measure
   iv_demCongress_1969_1979_2017_2024.csv  Nowlin's unified-Democratic-control measure,
                                          extension years only

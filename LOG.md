@@ -58,6 +58,34 @@ issue.
   in 1969. Flagged, not changed: the IV paragraph describes scientific
   feedback as the *net annual change* in publications, but the refreshed
   series uses the annual count.
+- **Corrected net scientific publications (NSP).** Checked Liu et al.
+  (p. 411): NSP is the year-over-year change in annual publications, and the
+  original `gccData.csv` netArticles is exactly the first difference of
+  sciArticles (1981-2016). The Session 5 refresh had put the WoS *annual
+  count* into netArticles. `fix_nsp_net_change.py` (03-data) rebuilds
+  `iv_sciPublications_1969_2024.csv` with both columns (1969 net assumes
+  1968 = 0). Re-ran: NSP is no longer significant in either 1969-2005
+  equation (media 0.281* before, 0.040 now); IFE and inertia results hold.
+  **Session 5's "WoS returns 7-9x the original" was wrong**: it compared new
+  annual counts with the original first differences. Like for like, new
+  counts are ~0.6x the original from 1995 on, much lower pre-1991. Fixed the
+  manuscript's IV paragraph and the methodology memo (§7 item 5; also added
+  §5b on 1969-1975 and updated §8-§9).
+- **NSP now spliced, not refreshed** (user's call, after walking through the
+  seam problem). `splice_nsp.py` (03-data): original 1980-2016 netArticles
+  kept; 2017-2024 = new WoS year-over-year changes / 0.607 (mean new/original
+  annual-count ratio 2007-2016; ratio 0.52-0.64 every year 1994-2016);
+  1969-1979 = new changes unscaled. Joining changes rather than counts avoids
+  a spurious ~-6,400 value at 2017. New `stopifnot` in `analysis.R` checks
+  the spliced netArticles and netPPM reproduce `gccData.csv` for 1980-2016;
+  it caught one pre-existing slip, 1980 netPPM 1.84 vs original 1.83 (the
+  Session 5 splice recomputed it from NOAA's 1979 level), now restored.
+  1969-2005 VAR with the splice: NSP -> media 0.533 (p = .052; Liu 0.211,
+  p < .10), NSP -> Congress 0.011 (n.s.; Liu 0.011, p < .05); IFE (t-1) ->
+  Congress 8.75***; IFE (t) -> media 124.9*. Manuscript IV paragraph and
+  memo §7 item 5 / §9 updated to describe the splice.
+- Set `git config core.fileMode false` for this repo so OneDrive's
+  permission flips no longer show as modifications (local config only).
 - **Fixed a broken renv library:** OneDrive had converted the library's
   symlinks into plain text files holding the cache path, so no package
   loaded. Recreated all 83 symlinks from renv's cache (outside OneDrive; no
