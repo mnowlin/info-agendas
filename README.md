@@ -17,13 +17,13 @@ LOG.md                               Running session log (newest entry first)
 scripts/
   analysis.R                         Sourced by the qmd. Five parts: (1) reproduces
                                        Nowlin (2019, Table 5.1) on 1980-2016; (2) loads
-                                       the extended 1976-2024 DV series; (3) extends all
-                                       seven Table 5.1 variables to 1976-2024 and
+                                       the extended 1969-2024 DV series; (3) extends all
+                                       seven Table 5.1 variables to 1969-2024 and
                                        re-estimates (m_extended, background/not displayed
                                        in the manuscript); (4) replicates Liu et al.
                                        (2011)'s own two-equation VAR (media + congressional
-                                       attention) on the full series and on a 1976-2005
-                                       window comparable to Liu's original 1969-2005 --
+                                       attention) on the full series and on Liu's exact
+                                       1969-2005 window (n = 36, as in their Table 1) --
                                        this is the model the manuscript's Results section
                                        displays; (5) figures (hearings per year, the four
                                        problem indicators).
@@ -33,22 +33,24 @@ data/                                Analysis data (NOT in git -- local only)
   gccWitnesses.csv                     Witness-appearance data, 1975-2024 (441 hearings'
                                          worth added this session from GovInfo/ProQuest;
                                          see LOG.md)
-  dv_series_1976_2024.csv              The extended DV: congressional climate hearings,
-                                         1976-2024 (splices GovInfo, ProQuest, and the
-                                         original hand-coded series -- see the methodology
-                                         memo below)
-  iv_co2_cei_1976_2024.csv             Net CO2 change + Climate Extremes Index, spliced
-  iv_nyt_1976_2024.csv                 NYT article counts, refreshed on today's API
-  iv_sciPublications_1976_2024.csv     Net scientific publications, refreshed on today's
+  dv_series_1969_2024.csv              The extended DV: congressional climate hearings,
+                                         1969-2024 (splices GovInfo, ProQuest, and the
+                                         original hand-coded series; 1969-1975 = 0 from a
+                                         ProQuest hand search -- see the methodology memo
+                                         below)
+  iv_co2_cei_1969_2024.csv             Net CO2 change + Climate Extremes Index, spliced
+  iv_nyt_1969_2024.csv                 NYT article counts, refreshed on today's API
+  iv_sciPublications_1969_2024.csv     Net scientific publications, refreshed on today's
                                          Web of Science
-  iv_REP_1976_2024.csv                 Liu et al.'s 3-level Republican-control measure
-  iv_demCongress_1976_1979_2017_2024.csv  Nowlin's unified-Democratic-control measure,
+  iv_REP_1969_2024.csv                 Liu et al.'s 3-level Republican-control measure
+  iv_demCongress_1969_1979_2017_2024.csv  Nowlin's unified-Democratic-control measure,
                                          extension years only
   iv_eventCount_2016_2024.csv,
   iv_focusing_events_REVISED_2016_2024.csv  International focusing events, criteria-
                                          screened against Liu et al.'s own definition
   hearings-2017-2022-methodology.md    How the climate-hearing DV was extended (title is
-                                         stale -- content now covers 1976-2024)
+                                         stale -- content covers 1976-2024; 1969-1975
+                                         additions are in LOG.md, Session 6)
   transcripts_not_found.csv,
   witnesses_not_located.csv            Residual gaps (should be near-empty -- see LOG.md)
 literature/                          Background literature (NOT in git -- local only)
@@ -71,12 +73,19 @@ run `renv::restore()` to reproduce the recorded library.
 The `data/` folder is **not tracked in git** and must be restored locally
 before rendering. `data/hearings-2017-2022-methodology.md` documents how the
 climate-hearing dependent variable and all seven Table 5.1 variables were
-extended to 1976-2024 (its filename is stale but its content is current);
+extended to 1976-2024 (its filename is stale); the 1969-1975 extension is
+documented in `LOG.md` (Session 6);
 `LOG.md` has the session-by-session narrative, including several data-quality
 issues found and fixed along the way (worth reading before trusting any one
 number in isolation). The construction scripts, intermediate files, and full
 hearing-transcript corpus (657 hearings, plain text) live in
-`03-data/climate-change-hearings/` (outside this repo).
+`03-data/climate-change-hearings/` (outside this repo). The 1976-2024 data files
+are kept alongside the 1969 versions but are no longer read by `analysis.R`.
+
+A separate corpus of Congressional Record floor speeches on climate change and
+cap-and-trade, 2000-2012 (2,119 speeches, plain text, with party/state index),
+lives in `03-data/cap-and-trade-congressional-record/` (outside this repo; see
+its README for method).
 
 ## Notes
 

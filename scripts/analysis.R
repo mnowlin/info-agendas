@@ -9,13 +9,13 @@
 #   Liu, Lindquist & Vedlitz (2011) problem-stream model on congressional
 #   climate-hearing counts, 1980-2016. This is the H1 baseline the paper
 #   extends through 2024.
-# Part 2 -- The extended DV series, 1976-2024.
-# Part 3 -- All seven Table 5.1 variables extended to 1976-2024, and the
+# Part 2 -- The extended DV series, 1969-2024.
+# Part 3 -- All seven Table 5.1 variables extended to 1969-2024, and the
 #   model re-estimated on the full series (m_extended), alongside the
 #   original 1980-2016 reproduction (m_nowlin2019) for comparison.
 # Part 4 -- Liu, Lindquist & Vedlitz (2011)'s own two-equation VAR approach
 #   (not Nowlin's single-equation simplification), replicated and run on the
-#   full 1976-2024 series. This is the model the manuscript's Results table
+#   full 1969-2024 series. This is the model the manuscript's Results table
 #   uses.
 # Part 5 -- Figures: hearings per year, and the four problem indicators.
 
@@ -76,10 +76,12 @@ tbl_nowlin2019_repro <- modelsummary(
   title    = "Reproduction of Nowlin (2019), Table 5.1"
 )
 
-# --- Extended DV series, 1976-2024 ------------------------------------------
-# dv_series_1976_2024.csv: the annual count of congressional climate hearings,
+# --- Extended DV series, 1969-2024 ------------------------------------------
+# dv_series_1969_2024.csv: the annual count of congressional climate hearings,
 # spliced across four periods/instruments (full provenance, judgment calls,
 # and caveats in data/hearings-2017-2022-methodology.md):
+#   1969-1975  0 -- hand search of ProQuest Congressional (2026-09-23) found
+#              no climate hearings in these years
 #   1976-1979  gccHearings_deduped.csv (hand-coded) + 2 ProQuest-only
 #              precedent/continuation judgment calls (memo Sec. 5a)
 #   1980-2016  Nowlin (2019); same "hearings" column as gccData.csv above
@@ -89,7 +91,7 @@ tbl_nowlin2019_repro <- modelsummary(
 #   2023-2024  ProQuest title-only screen -- likely an undercount floor, no
 #              opening-statement pass was available for these years (memo
 #              Sec. 5, Sec. 7 item 7)
-dv_series <- read.csv("data/dv_series_1976_2024.csv", strip.white = TRUE)
+dv_series <- read.csv("data/dv_series_1969_2024.csv", strip.white = TRUE)
 dv_series <- dv_series[order(dv_series$year), ]
 
 # Sanity check: 1980-2016 in dv_series must reproduce gccData.csv$hearings
@@ -99,14 +101,14 @@ chk <- merge(dv_series, gcc[, c("year", "hearings")], by = "year",
              suffixes = c("_dv", "_gcc"))
 stopifnot(all(chk$hearings_dv == chk$hearings_gcc))
 
-# --- Part 3: all seven IVs extended, 1976-2024 ------------------------------
+# --- Part 3: all seven IVs extended, 1969-2024 ------------------------------
 # Provenance for each column (full detail + caveats in LOG.md and
 # data/hearings-2017-2022-methodology.md):
 #   netPPM, climateIndex  spliced -- original 1980-2016 values kept as-is;
-#                         NOAA pulls fill 1976-1979 and 2017-2024 (negligible
+#                         NOAA pulls fill 1969-1979 and 2017-2024 (negligible
 #                         CO2 drift; CEI has real revision drift, spliced
 #                         rather than refreshed for that reason)
-#   nyt, netArticles      refreshed throughout 1976-2024 on today's NYT
+#   nyt, netArticles      refreshed throughout 1969-2024 on today's NYT
 #                         Article Search API / Web of Science (SCI-Expanded +
 #                         SSCI) -- a splice was rejected for both: matching
 #                         the original search recipe as closely as possible
@@ -123,19 +125,19 @@ stopifnot(all(chk$hearings_dv == chk$hearings_gcc))
 #                         original years with zero mismatches)
 #   eventCount            1980-2016 unchanged; 2017-2024 from a criteria-
 #                         screened re-application of Liu et al. (2011)'s own
-#                         four-part IFE definition; 1976-1979 = 0 (no
+#                         four-part IFE definition; 1969-1979 = 0 (no
 #                         candidate event that early in either Liu's or
 #                         Nowlin's list -- the earliest is the 1987 Montreal
 #                         Protocol)
-#   hearings              dv_series_1976_2024.csv (Part 2)
-co2cei   <- read.csv("data/iv_co2_cei_1976_2024.csv", strip.white = TRUE)
-nyt_iv   <- read.csv("data/iv_nyt_1976_2024.csv", strip.white = TRUE)
-sci_iv   <- read.csv("data/iv_sciPublications_1976_2024.csv", strip.white = TRUE)
-demc_ext <- read.csv("data/iv_demCongress_1976_1979_2017_2024.csv", strip.white = TRUE)
+#   hearings              dv_series_1969_2024.csv (Part 2)
+co2cei   <- read.csv("data/iv_co2_cei_1969_2024.csv", strip.white = TRUE)
+nyt_iv   <- read.csv("data/iv_nyt_1969_2024.csv", strip.white = TRUE)
+sci_iv   <- read.csv("data/iv_sciPublications_1969_2024.csv", strip.white = TRUE)
+demc_ext <- read.csv("data/iv_demCongress_1969_1979_2017_2024.csv", strip.white = TRUE)
 event_ext <- read.csv("data/iv_eventCount_2016_2024.csv", strip.white = TRUE)
 event_ext <- event_ext[event_ext$year >= 2017, ]  # 2016 already covered by gcc
 
-gccExt <- data.frame(year = 1976:2024)
+gccExt <- data.frame(year = 1969:2024)
 gccExt <- merge(gccExt, dv_series[, c("year", "hearings")], by = "year", all.x = TRUE)
 gccExt <- merge(gccExt, co2cei[, c("year", "netPPM_spliced", "climateIndex_spliced")],
                 by = "year", all.x = TRUE)
@@ -155,10 +157,10 @@ i <- match(gcc$year, gccExt$year)
 gccExt$eventCount[i] <- gcc$eventCount
 i <- match(event_ext$year, gccExt$year)
 gccExt$eventCount[i] <- event_ext$eventCount
-gccExt$eventCount[gccExt$year %in% 1976:1979] <- 0
+gccExt$eventCount[gccExt$year %in% 1969:1979] <- 0
 
 gccExt <- gccExt[order(gccExt$year), ]
-stopifnot(!anyNA(gccExt))  # every column should be fully populated, 1976-2024
+stopifnot(!anyNA(gccExt))  # every column should be fully populated, 1969-2024
 
 gccExt <- gccExt |>
   mutate(
@@ -177,7 +179,7 @@ m_extended <- lm(
 )
 
 tbl_nowlin_comparison <- modelsummary(
-  list("Original, 1980-2016" = m_nowlin2019, "Extended, 1976-2024" = m_extended),
+  list("Original, 1980-2016" = m_nowlin2019, "Extended, 1969-2024" = m_extended),
   coef_map = coef_map_n2019,
   gof_map  = c("nobs", "r.squared", "adj.r.squared"),
   stars    = c('*' = .05, '**' = .01, '***' = .001),
@@ -209,7 +211,7 @@ tbl_nowlin_comparison <- modelsummary(
 # Optimal lag = 1 throughout (matching both Liu's own lag-order-selection
 # result, their note 16, and Nowlin's reduced form) except REP, which Liu
 # also enter unlagged.
-rep_iv <- read.csv("data/iv_REP_1976_2024.csv", strip.white = TRUE)
+rep_iv <- read.csv("data/iv_REP_1969_2024.csv", strip.white = TRUE)
 
 liu <- gccExt[, c("year", "hearings", "nyt", "netPPM", "climateIndex",
                    "eventCount", "netArticles")]
@@ -255,16 +257,12 @@ tbl_liu_var <- modelsummary(
   coef_map = coef_map_liu,
   gof_map  = c("nobs", "r.squared", "adj.r.squared"),
   stars    = c('*' = .05, '**' = .01, '***' = .001),
-  title    = "Media and Congressional Attention to Climate Change, 1976-2024"
+  title    = "Media and Congressional Attention to Climate Change, 1969-2024"
 )
 
-# --- Part 4b: same VAR, truncated to Liu et al.'s original 1969-2005 window -
-# Liu et al.'s data run 1969-2005; ours starts at 1976 (the earliest year
-# ProQuest itself has any climate-hearing hit, per the DV construction --
-# hearings-2017-2022-methodology.md Sec. 5a), so this is 1976-2005, not
-# 1969-2005 -- the closest replication window this data supports, not an
-# exact match. Same two equations, same lag structure, just the right-hand
-# boundary moved to match theirs instead of running through 2024.
+# --- Part 4b: same VAR, on Liu et al.'s original 1969-2005 window ----------
+# Same two equations, same lag structure, same sample window as Liu et al.
+# (2011): 1969-2005, n = 36 after the one-year lag (their Table 1 n).
 liu2005 <- liu[liu$year <= 2005, ]
 
 m_liu_media_2005 <- lm(
@@ -281,7 +279,7 @@ tbl_liu_var_2005 <- modelsummary(
   coef_map = coef_map_liu,
   gof_map  = c("nobs", "r.squared", "adj.r.squared"),
   stars    = c('*' = .05, '**' = .01, '***' = .001),
-  title    = "Media and Congressional Attention to Climate Change, 1976-2005 (cf. Liu et al. 2011, 1969-2005)"
+  title    = "Media and Congressional Attention to Climate Change, 1969-2005 (cf. Liu et al. 2011)"
 )
 
 # --- Part 5: Figures ---------------------------------------------------------
@@ -328,27 +326,27 @@ if (sys.nframe() == 0) {
   cat("\nmax abs. difference from published coefficients:",
       formatC(max(abs(got - reported)), format = "e", digits = 2), "\n")
 
-  cat("\nExtended DV series, 1976-2024 (n =", nrow(dv_series), "years)\n")
+  cat("\nExtended DV series, 1969-2024 (n =", nrow(dv_series), "years)\n")
   print(dv_series)
 
-  cat("\nExtended model, 1976-2024 (all seven IVs) -- m_extended\n")
+  cat("\nExtended model, 1969-2024 (all seven IVs) -- m_extended\n")
   cat("n =", length(m_extended$fitted.values),
-      " (1976-2024, first year dropped by the lag)\n\n")
+      " (1969-2024, first year dropped by the lag)\n\n")
   print(round(summary(m_extended)$coefficients, 3))
   cat("\nR-squared:", round(summary(m_extended)$r.squared, 3),
       " Adj. R-squared:", round(summary(m_extended)$adj.r.squared, 3), "\n")
 
-  cat("\nLiu et al. (2011)-style VAR, 1976-2024 -- media attention (MA)\n")
+  cat("\nLiu et al. (2011)-style VAR, 1969-2024 -- media attention (MA)\n")
   cat("n =", length(m_liu_media$fitted.values), "\n\n")
   print(round(summary(m_liu_media)$coefficients, 3))
-  cat("\nLiu et al. (2011)-style VAR, 1976-2024 -- congressional attention (CA)\n")
+  cat("\nLiu et al. (2011)-style VAR, 1969-2024 -- congressional attention (CA)\n")
   cat("n =", length(m_liu_congress$fitted.values), "\n\n")
   print(round(summary(m_liu_congress)$coefficients, 3))
 
-  cat("\nLiu et al. (2011)-style VAR, 1976-2005 -- media attention (MA)\n")
+  cat("\nLiu et al. (2011)-style VAR, 1969-2005 -- media attention (MA)\n")
   cat("n =", length(m_liu_media_2005$fitted.values), "\n\n")
   print(round(summary(m_liu_media_2005)$coefficients, 3))
-  cat("\nLiu et al. (2011)-style VAR, 1976-2005 -- congressional attention (CA)\n")
+  cat("\nLiu et al. (2011)-style VAR, 1969-2005 -- congressional attention (CA)\n")
   cat("n =", length(m_liu_congress_2005$fitted.values), "\n\n")
   print(round(summary(m_liu_congress_2005)$coefficients, 3))
 }

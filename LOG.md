@@ -23,6 +23,64 @@ issue.
 
 ## Session History
 
+### Session 6 — 2026-09-23 (Series extended to 1969 to match Liu et al.; cap-and-trade Congressional Record corpus)
+
+- **Extended the DV and all IVs back to 1969** so the VAR runs on exactly
+  Liu, Lindquist & Vedlitz (2011)'s window (1969-2005, n = 36 after the lag).
+  - **Hearings 1969-1975 = 0** — user hand-searched ProQuest Congressional
+    and found no climate hearings in those years (consistent with the earlier
+    exclusion of the 1975 ozone hearing in `gccHearings_deduped.csv`).
+  - **CO2 / CEI:** from the same NOAA raw pulls used for 1976-1979 (1969 net
+    CO2 uses the 1968 level). **REP = -1, demCongress = 1** (Democrats held
+    both chambers, 91st-94th Congresses). **eventCount / IFE = 0** (Liu's
+    earliest IFE is the 1987 Montreal Protocol).
+  - **NYT 1969-1975:** 9, 6, 8, 13, 5, 7, 27 (NYT Article Search API, same
+    query as before; `fetch_nyt_counts.py` now takes a year range).
+  - **WoS 1969-1975 = 0 every year** — pulled by the user via the Claude
+    Chrome extension with the same recipe (SCI-E + SSCI, AB= three terms,
+    English); the same search reproduced our 1976-1979 counts exactly
+    (1/1/0/2), confirming the method. Caveat: WoS barely indexes abstracts
+    before 1991, so the early series undercounts.
+  - New files `*_1969_2024.csv` (DV, CO2/CEI, NYT, sci publications, REP,
+    demCongress) built by `extend_1969_1975.py` in
+    `03-data/climate-change-hearings/` and copied to `data/`; the 1976 files
+    are left in place but no longer read.
+- **`scripts/analysis.R`** now reads the 1969 files; Part 4b is Liu's exact
+  1969-2005 window. Ran clean; the Nowlin (2019) reproduction still matches
+  (max diff 2.6e-4). **1969-2005 VAR vs. Liu's Table 1:** congressional
+  attention — IFE (t-1) 8.49*** (Liu 7.23), own lag 0.47** (0.57); media —
+  IFE (t) 123.3* (56.6), own lag 0.58* (0.72), NSP 0.28* (0.21); REP n.s. in
+  both, as in Liu. Main difference: NSP no longer predicts congressional
+  attention. Full 1969-2024 congressional equation: REP -4.34 (p = .041),
+  MA (t-1) p = .002.
+- **Manuscript:** updated figure/table captions to 1969 and, on request,
+  the two data paragraphs (DV and IV descriptions) to say the series begins
+  in 1969. Flagged, not changed: the IV paragraph describes scientific
+  feedback as the *net annual change* in publications, but the refreshed
+  series uses the annual count.
+- **Fixed a broken renv library:** OneDrive had converted the library's
+  symlinks into plain text files holding the cache path, so no package
+  loaded. Recreated all 83 symlinks from renv's cache (outside OneDrive; no
+  reinstall). May recur — `RENV_CONFIG_CACHE_SYMLINKS=FALSE` in `.Renviron`
+  would make renv copy instead; not set yet.
+- **New corpus: `03-data/cap-and-trade-congressional-record/`** (outside the
+  repo) — Congressional Record floor speeches and Extensions of Remarks,
+  2000-2012, on climate change and cap-and-trade.
+  - Scoped first: congress.gov's API lists Record issues but has no
+    full-text search, so GovInfo (same GPO files) is the instrument.
+    Pre-1994 bound Record is only day-level scanned PDFs — not pursued.
+  - Search terms: "climate change", "global warming", "greenhouse gas",
+    "cap and trade", plus (added on request) "national energy tax" and
+    "cap-and-tax" to catch opponents' framing. Plain "energy tax" left out
+    (mostly energy tax credits); "carbon tax" not added (would add 26).
+  - 6,846 records → 6,070 without the Daily Digest → 110,703 speeches split
+    by speaker, inserted bill text stripped, 2,718 duplicate copies removed →
+    **2,119 kept** by a mechanical screen (3+ mentions and 2+ per 1,000 words,
+    or a topic title and 2+ mentions). Party/state from GovInfo metadata
+    (all but 1 matched). Peak 2009 = 639; 277 speeches use the energy-tax
+    terms, 273 of them Republican. Scripts, index CSV, full audit CSV, and
+    README (method + caveats) are in that folder.
+
 ### Session 5 — 2026-09-11/12 (ProQuest trial access; DV/IV extension to 1976-2024; Liu et al. VAR replication; full transcript corpus)
 
 Got trial ProQuest Congressional access via the university library and pulled
