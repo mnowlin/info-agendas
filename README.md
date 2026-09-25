@@ -87,7 +87,11 @@ are kept alongside the 1969 versions but are no longer read by `analysis.R`.
 A separate corpus of Congressional Record floor speeches on climate change and
 cap-and-trade, 2000-2012 (2,133 speeches, plain text, with party/state index),
 lives in `03-data/cap-and-trade-congressional-record/` (outside this repo; see
-its README for method).
+its README for method). A companion corpus for 2018-2026 (2,079 speeches) on
+climate change and the energy side of Build Back Better, the Inflation
+Reduction Act, the One Big Beautiful Bill Act, and the Green New Deal, built
+with the same method plus bill-specific searches, lives in
+`03-data/ira-congressional-record/`.
 
 ## Notes
 

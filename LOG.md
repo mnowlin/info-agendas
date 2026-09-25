@@ -23,6 +23,39 @@ issue.
 
 ## Session History
 
+### Session 7 — 2026-09-25 (Climate / IRA / OBBB Congressional Record corpus, 2018-2026)
+
+- **New corpus: `03-data/ira-congressional-record/`** (outside the repo) —
+  Congressional Record floor speeches and Extensions of Remarks, January 2018
+  through 2026-09-24 (latest GovInfo issue), replicating the 2000-2012
+  cap-and-trade corpus for the Build Back Better / IRA / OBBB period. Scripts
+  adapted from the cap-and-trade folder; README there has method and caveats.
+  - **Searches:** the 2000-2012 terms unchanged (climate, cap-and-trade,
+    energy-tax frame, carbon tax), plus "Inflation Reduction Act", "One Big
+    Beautiful Bill" / "Big Beautiful Bill", "Build Back Better", "Green New
+    Deal" / "Green New Scam" (user: keep BBB and GND), and, added on request,
+    "big ugly bill" (Democrats' OBBB frame) and a **2025-only** energy-credit
+    search ("energy tax credit(s)", "clean energy credit(s)", EV tax credits,
+    or "tax credit" with clean/renewable energy, solar, wind energy, EVs).
+    Each search is flagged separately in `records.csv`.
+  - **Screen:** rules A (dense) and B (titled) unchanged from 2000-2012, so
+    the periods compare. New rule C (`bill_energy`): speech or record title
+    names IRA / OBBB / "big, ugly bill" / BBB / GND / the reconciliation bill,
+    plus 3+ energy/climate mentions at 2+ per 1,000 words — keeps the energy
+    side of the bill debates, drops tax/health/IRS speeches. In 2025 only, an
+    energy-tax-credit mention counts as naming the bill. Speaker regex now
+    accepts accented capitals.
+  - **Result:** 5,388 records (Digest dropped) → 51,306 speeches → **2,079
+    kept** (837 dense, 88 titled, 1,154 bill_energy); D 1,238 · R 812 · I 29.
+    By year: 2018 152 · 2019 406 · 2020 113 · 2021 311 · 2022 331 · 2023 327 ·
+    2024 190 · 2025 211 · 2026 38 (partial). Kept count by build: 2,025 →
+    2,056 (+ 2025 energy credits) → 2,079 (+ "big ugly bill"). OBBB name in
+    56 kept speeches; "big, ugly bill" in 34 (all D).
+  - **Caveats:** rule C is looser than A/B (admits general energy-policy
+    speeches that name a bill); filter `keep_rule` to dense/titled for a
+    like-for-like comparison with 2000-2012. OBBB-debate speeches that name
+    neither the bill, the IRA, climate, nor energy credits are still missed.
+
 ### Session 6 — 2026-09-23 (Series extended to 1969 to match Liu et al.; cap-and-trade Congressional Record corpus)
 
 - **Extended the DV and all IVs back to 1969** so the VAR runs on exactly
